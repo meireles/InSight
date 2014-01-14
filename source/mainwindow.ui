@@ -85,10 +85,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionSet_X"/>
-   <addaction name="actionSet_Y"/>
-   <addaction name="actionSet_Z"/>
-   <addaction name="separator"/>
+   <addaction name="actionToolBox"/>
    <addaction name="actionView_All_Actors"/>
    <addaction name="actionShow_Orientation_Axes"/>
   </widget>
@@ -124,9 +121,7 @@
     <addaction name="actionView_All_Actors"/>
     <addaction name="actionSet_Background_Color"/>
     <addaction name="separator"/>
-    <addaction name="actionSet_X"/>
-    <addaction name="actionSet_Y"/>
-    <addaction name="actionSet_Z"/>
+    <addaction name="actionToolBox"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -160,7 +155,7 @@
   <action name="actionView_All_Actors">
    <property name="icon">
     <iconset>
-     <normaloff>../resources/Eye_ToolBar_128 copy.png</normaloff>../resources/Eye_ToolBar_128 copy.png</iconset>
+     <normaloff>../resources/Eye_ToolBar_128.png</normaloff>../resources/Eye_ToolBar_128.png</iconset>
    </property>
    <property name="text">
     <string>View All Actors</string>
@@ -184,50 +179,22 @@
     <bool>false</bool>
    </property>
   </action>
-  <action name="actionSet_X">
+  <action name="actionToolBox">
+   <property name="icon">
+    <iconset>
+     <normaloff>../resources/Options_ToolBar_128.png</normaloff>../resources/Options_ToolBar_128.png</iconset>
+   </property>
    <property name="text">
-    <string>Set X</string>
+    <string>Show ToolBox</string>
    </property>
    <property name="iconText">
-    <string>X</string>
+    <string>ToolBox</string>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>14</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
+   <property name="toolTip">
+    <string>Show ToolBox</string>
    </property>
-  </action>
-  <action name="actionSet_Y">
-   <property name="text">
-    <string>Set Y</string>
-   </property>
-   <property name="iconText">
-    <string>Y</string>
-   </property>
-   <property name="font">
-    <font>
-     <family>Lucida Grande</family>
-     <pointsize>14</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-  </action>
-  <action name="actionSet_Z">
-   <property name="text">
-    <string>Set Z</string>
-   </property>
-   <property name="iconText">
-    <string>Z</string>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>14</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
  </widget>

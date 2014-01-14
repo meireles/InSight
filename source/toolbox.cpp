@@ -1,5 +1,5 @@
 /**
-* @file			nodeeditor.cpp
+* @file			toolbox.cpp
 *
 * @package		%DOXYGEN_PACKAGE%
 * @brief		%DOXYGEN_BRIEF%
@@ -22,17 +22,10 @@
 *
 */
 
-#include "nodeeditor.h"
-#include "ui_nodeeditor.h"
+#include "toolbox.h"
+//#include "ui_toolbox.h"
 
-NodeEditor::NodeEditor(QWidget *parent) :
-	QWidget(parent, Qt::Tool),
-	ui(new Ui::NodeEditor)
-{
-	ui->setupUi(this);
-}
 
-NodeEditor::~NodeEditor()
-{
-	delete ui;
+ToolBox::ToolBox(QWidget *parent) : QWidget(parent, Qt::Tool) {
+	setupUi(this);
 }

@@ -9,7 +9,7 @@
 #include <vtkSmartPointer.h>
 
 
-#include "nodeeditor.h"
+#include "toolbox.h"
 
 
 // Forward Declaration
@@ -30,17 +30,13 @@ class MainWindow : public QMainWindow, private Ui::MainWindow {
 
 		void on_actionShow_Orientation_Axes_toggled(bool arg1);
 
-		void on_actionSet_X_triggered();
-
-		void on_actionSet_Y_triggered();
-
-		void on_actionSet_Z_triggered();
+		void on_actionToolBox_triggered();
 
 	private:
 		TreeModel									mytree;
 
 
-		NodeEditor									node_editor;
+		ToolBox									tool_box;
 
 
 		vtkSmartPointer<vtkRenderer>				renderer;

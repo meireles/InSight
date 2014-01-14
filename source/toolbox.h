@@ -1,5 +1,5 @@
 /**
-* @file			nodeeditor.h
+* @file			toolbox.h
 *
 * @package		%DOXYGEN_PACKAGE%
 * @brief		%DOXYGEN_BRIEF%
@@ -22,25 +22,22 @@
 *
 */
 
-#ifndef NODEEDITOR_H
-#define NODEEDITOR_H
+#ifndef TOOLBOX_H
+#define TOOLBOX_H
 
 #include <QWidget>
+#include "ui_toolbox.h"
 
-namespace Ui {
-	class NodeEditor;
-}
 
-class NodeEditor : public QWidget
-{
-		Q_OBJECT
+
+class ToolBox : public QWidget, private Ui::ToolBox {
+	Q_OBJECT
 
 	public:
-		NodeEditor(QWidget *parent = 0);
-		~NodeEditor();
+		ToolBox(QWidget *parent = 0);
 
 	private:
-		Ui::NodeEditor *ui;
 };
 
-#endif // NODEEDITOR_H
+
+#endif

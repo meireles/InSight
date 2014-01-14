@@ -28,7 +28,7 @@
 #include <iostream>
 
 
-#include "nodeeditor.h"
+#include "toolbox.h"
 
 // **************************************************************** //
 //							Constructor
@@ -241,16 +241,7 @@ void MainWindow::on_actionShow_Orientation_Axes_toggled(bool enable) {
 	update_rendering_window();
 }
 
-void MainWindow::on_actionSet_X_triggered() {
-	node_editor.show();
-}
 
-void MainWindow::on_actionSet_Y_triggered()
-{
-
-}
-
-void MainWindow::on_actionSet_Z_triggered()
-{
-
+void MainWindow::on_actionToolBox_triggered() {
+	tool_box.show();
 }
