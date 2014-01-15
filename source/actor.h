@@ -22,63 +22,98 @@
 *
 */
 
+
 #ifndef ACTOR_H
 #define ACTOR_H
 
 #include "vtkRenderingCoreModule.h" // For export macro
 
+#include <vtkActor.h>
 #include <vtkSmartPointer.h>
 
 
-class vtkActor;
 class vtkPolyDataMapper;
+class vtkRenderer;
 class vtkSphereSource;
 class vtkLineSource;
 class vtkTubeFilter;
 
 
-class NodeActor {
+class VTKRENDERINGCORE_EXPORT  NodeActor :  public vtkActor {
 	public:
-		NodeActor();
+		// *************************************** //
+		//		Overload members from vtkActor
+		// *************************************** //
+		vtkTypeMacro(NodeActor, vtkActor);
 
+		static NodeActor* New();
+		virtual void ReleaseGraphicsResources(vtkWindow* window);
+		virtual int RenderOpaqueGeometry(vtkViewport* viewport);
+		virtual int RenderTranslucentPolygonalGeometry(vtkViewport* viewport);
+		virtual void Render(vtkRenderer* ren);
+		void ShallowCopy(vtkProp* prop);
+
+		// *************************************** //
+		//				Wrappers
+		// *************************************** //
 		void set_center(double x, double y, double z);
 		void set_size(double size);
 		void set_resolution(unsigned phi, unsigned theda);
 		void set_color(double red, double green, double blue);
 
-		/// gets the underlying vtkActor
-		vtkActor* get();
+
+	protected:
+		NodeActor();
+		~NodeActor();
 
 	private:
-		vtkSmartPointer<vtkSphereSource>	source;
-		vtkSmartPointer<vtkPolyDataMapper>	mapper;
-		vtkSmartPointer<vtkActor>			actor;
+		vtkActor*							device_m;
+
+		vtkSmartPointer<vtkSphereSource>	source_m;
+		vtkSmartPointer<vtkPolyDataMapper>	mapper_m;
 };
 
 
 
-class EdgeActor {
-	public:
-		EdgeActor();
 
+class VTKRENDERINGCORE_EXPORT EdgeActor : public vtkActor {
+	public:
+		// *************************************** //
+		//		Overload members from vtkActor
+		// *************************************** //
+		vtkTypeMacro(EdgeActor, vtkActor);
+
+		static EdgeActor* New();
+		virtual void ReleaseGraphicsResources(vtkWindow* window);
+		virtual int RenderOpaqueGeometry(vtkViewport* viewport);
+		virtual int RenderTranslucentPolygonalGeometry(vtkViewport* viewport);
+		virtual void Render(vtkRenderer* ren);
+		void ShallowCopy(vtkProp* prop);
+
+		// *************************************** //
+		//				Wrappers
+		// *************************************** //
 		void set_point1(double x, double y, double z);
 		void set_point2(double x, double y, double z);
+
+		/// sets line width or cylinder diameter!
 		void set_width(double width);
 		void set_color(double red, double green, double blue);
 
-		/// gets the underlying vtkActor
-		vtkActor* get();
-		vtkActor* get_cylinder();
+
+	protected:
+		EdgeActor();
+		~EdgeActor();
 
 	private:
+		vtkActor*							device_line_m;
+		vtkActor*							device_cylinder_m;
+
 		vtkSmartPointer<vtkLineSource>		source;
 		vtkSmartPointer<vtkPolyDataMapper>	mapper;
-		vtkSmartPointer<vtkActor>			actor;
 
 		vtkSmartPointer<vtkTubeFilter>		cylinder_filter;
 		vtkSmartPointer<vtkPolyDataMapper>	cylinder_mapper;
-		vtkSmartPointer<vtkActor>			cylinder_actor;
-
 };
 
 

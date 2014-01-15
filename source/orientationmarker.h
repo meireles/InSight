@@ -1,11 +1,11 @@
 /**
-* @file			actorbase.cpp
+* @file			orientationmarker.h
 *
 * @package		%DOXYGEN_PACKAGE%
 * @brief		%DOXYGEN_BRIEF%
 *
 * @author		Meireles
-* @date			1/7/2014
+* @date			1/14/2014
 *
 * @copyright	Copyright (C) 2014  Meireles
 *
@@ -22,11 +22,28 @@
 *
 */
 
+#ifndef ORIENTATIONMARKER_H
+#define ORIENTATIONMARKER_H
 
-#include "actorbase.h"
-#include "vtkObjectFactory.h"
 
-vtkStandardNewMacro(ActorBase)
-//vtkCxxSetObjectMacro(ActorBase, vtkActor)
+#include <vtkSmartPointer.h>
 
-ActorBase::ActorBase(Node* node_i_represent) : node_i_represent(node_i_represent), vtkActor() { }
+class vtkOrientationMarkerWidget;
+class vtkRenderWindowInteractor;
+class vtkAxesActor;
+
+
+class OrientationMarker {
+	public:
+		OrientationMarker();
+
+		void set_interactor(vtkRenderWindowInteractor* interactor);
+		void set_enabeled(bool arg);
+
+	private:
+		vtkSmartPointer<vtkOrientationMarkerWidget>	orientation_marker_m;
+		vtkSmartPointer<vtkAxesActor>				axes_actor_m;
+};
+
+
+#endif // ORIENTATIONMARKER_H

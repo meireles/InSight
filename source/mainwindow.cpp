@@ -1,7 +1,10 @@
+
 #include "mainwindow.h"
 #include "treemodel.h"
 #include "newick.h"
 #include "mouseinteractorpicking.h"
+#include "toolbox.h"
+
 
 #include <QFileDialog>
 #include <QColorDialog>
@@ -22,13 +25,10 @@
 #include <vtkInteractorStyleTrackballActor.h>
 #include <vtkProperty.h>
 #include <vtkRenderWindow.h>
-#include <vtkAxesActor.h>
-#include <vtkOrientationMarkerWidget.h>
+
 
 #include <iostream>
 
-
-#include "toolbox.h"
 
 // **************************************************************** //
 //							Constructor
@@ -42,42 +42,19 @@ MainWindow::MainWindow() {
 	// Not working in Qt5.2
 	setUnifiedTitleAndToolBarOnMac(true);
 
-	// If I want to change the toolbar backgound color, I also have to change the border, otherwise Qt doesn't repaint it
-	// toolBar -> setStyleSheet("QToolBar {background: #AEAEAE; border: 2px #AEAEAE}");
-
-
-
-
 
 	connections	= vtkSmartPointer<vtkEventQtSlotConnect>::New();
 	renderer	= vtkSmartPointer<vtkRenderer>::New();
+
 	qvtkWidget -> GetRenderWindow()->AddRenderer(renderer);
 
-	orientation_marker = vtkSmartPointer<vtkOrientationMarkerWidget>::New();
 
-	// Instantiate my custom interactor
 	vtkSmartPointer<MouseInteractorPicking> iter_style = vtkSmartPointer<MouseInteractorPicking>::New();
-
 
 	iter_style -> SetDefaultRenderer(renderer);
 	qvtkWidget->GetRenderWindow()->GetInteractor()->SetInteractorStyle(iter_style);
 
-
-	// Setup the orientation marker widget with axes
-	vtkSmartPointer<vtkAxesActor> axes_actor = vtkSmartPointer<vtkAxesActor>::New();
-	axes_actor -> SetShaftTypeToCylinder();
-
-	orientation_marker -> SetOrientationMarker(axes_actor);
-	orientation_marker -> SetViewport(0.0,0.0,0.2,0.2);
-	orientation_marker -> SetInteractor(qvtkWidget->GetRenderWindow()->GetInteractor());
-
-	// Must enable marker before disabeling interaction (weird, no?)
-	// Last line disables the marker though;
-	orientation_marker -> EnabledOn();
-	orientation_marker -> KeyPressActivationOff();
-	orientation_marker -> InteractiveOff();
-	orientation_marker -> EnabledOff();
-
+	orientation_marker.set_interactor(qvtkWidget->GetRenderWindow()->GetInteractor());
 
 	// Vtk / Qt communication
 	connections->Connect(this->qvtkWidget->GetRenderWindow()->GetInteractor(),
@@ -100,7 +77,7 @@ void MainWindow::slot_clicked(vtkObject*, unsigned long, void*, void*) {
 
 
 void MainWindow::on_actionImport_Tree_triggered() {
-	open_tree_file();
+	this -> open_tree_file();
 }
 
 
@@ -110,13 +87,15 @@ void MainWindow::on_actionImport_Tree_triggered() {
 // **************************************************************** //
 
 void MainWindow::reset_camera(){
-	renderer->ResetCamera();
+	renderer -> ResetCamera();
 	update_rendering_window();
 }
 
+
 void MainWindow::set_renderer_color(double r, double g, double b){
-	renderer->SetBackground(r,g,b);
+	renderer -> SetBackground(r,g,b);
 }
+
 
 void MainWindow::update_rendering_window(){
 	qvtkWidget->update();
@@ -145,11 +124,13 @@ void MainWindow::load_tree(std::string statement) {
 		 */
 
 		mytree.fill_leaf_spacing();
+
 		mytree.fill_node_hights(true);	// NOT USING BRLENS
 
 		add_node_actors_to_renderer();
 
 		renderer  ->ResetCamera();
+
 		qvtkWidget->update();
 
 
@@ -191,13 +172,18 @@ void MainWindow::open_tree_file(){
 }
 
 
+// ****************************************** //
+//
+//					FIX THIS!!!
+//
+// ****************************************** //
+void MainWindow::add_node_actors_to_renderer() {
 
-void MainWindow::add_node_actors_to_renderer(){
 	for(auto& i : mytree.iter_postorder(mytree.root())){
-		i -> data -> node_actor.set_center( i-> data -> node_height_x_coord,
-											i-> data -> leaf_spacing_y_coord,
-											0.0);
-		renderer -> AddActor(i -> data -> node_actor.get());
+		i -> data -> node_actor-> set_center( i-> data -> node_height_x_coord,
+											  i-> data -> leaf_spacing_y_coord,
+											  0.0);
+		renderer -> AddActor(i -> data -> node_actor); // -> get()
 	}
 
 	for(auto& i : mytree.iter_postorder(mytree.root()) ){
@@ -206,18 +192,18 @@ void MainWindow::add_node_actors_to_renderer(){
 			// And trying to access it will make the app crash
 		}
 		else {
-			i -> data -> edge_actor.set_point1(i-> data -> node_height_x_coord,
-											   i-> data -> leaf_spacing_y_coord,
-											   0.0
-											   );
+			i -> data -> edge_actor -> set_point1(i-> data -> node_height_x_coord,
+												  i-> data -> leaf_spacing_y_coord,
+												  0.0
+												  );
 
-			i -> data -> edge_actor.set_point2(i-> parent() -> data -> node_height_x_coord,
-											   i-> parent() -> data -> leaf_spacing_y_coord,
-											   0.0
-											   );
+			i -> data -> edge_actor -> set_point2(i-> parent() -> data -> node_height_x_coord,
+												  i-> parent() -> data -> leaf_spacing_y_coord,
+												  0.0
+												  );
 
-			//renderer -> AddActor(i -> data -> edge_actor.get());
-			renderer -> AddActor(i -> data -> edge_actor.get_cylinder());
+
+			renderer -> AddActor(i -> data -> edge_actor);
 		}
 	}
 }
@@ -236,8 +222,9 @@ void MainWindow::on_actionView_All_Actors_triggered(){
 	reset_camera();
 }
 
+
 void MainWindow::on_actionShow_Orientation_Axes_toggled(bool enable) {
-	orientation_marker ->SetEnabled(enable);
+	orientation_marker.set_enabeled(enable);
 	update_rendering_window();
 }
 

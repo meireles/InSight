@@ -46,8 +46,8 @@ class NodeData {
 	public:
 		NodeData();
 
-		NodeActor	node_actor;
-		EdgeActor	edge_actor;
+		vtkSmartPointer<NodeActor>	node_actor;
+		vtkSmartPointer<EdgeActor>	edge_actor;
 
 		double		leaf_spacing_y_coord;
 		double		node_radius;

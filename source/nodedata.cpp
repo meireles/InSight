@@ -25,10 +25,31 @@
 #include "nodedata.h"
 
 
+
+// test
+#include <iostream>
+
 NodeData::NodeData() :	leaf_spacing_y_coord(0.0),
 						node_radius(0.5),
 						node_height_x_coord(0.0),
-						edge_thickness(0.1) { }
+						edge_thickness(0.1) {
+
+	node_actor = vtkSmartPointer<NodeActor>::New();
+	edge_actor = vtkSmartPointer<EdgeActor>::New();
+
+	// ******  TEST ***** //
+	std::cout << "Node Data's address " << this << "\n" << std::endl;
+	std::cout << "Node's actor smart pointer address " << this-> node_actor << std::endl;
+	std::cout << "Node's actor ptr address " << this-> node_actor.Get() << std::endl;
+	std::cout << "Node's actor address " << this-> node_actor.GetPointer() << "\n" << std::endl;
+
+	std::cout << "Edge's actor smart pointer address " << this-> edge_actor << std::endl;
+	std::cout << "Edge's actor ptr address " << this-> edge_actor.Get() << std::endl;
+	std::cout << "Edge's actor address " << this-> edge_actor.GetPointer() << "\n\n" << std::endl;
+
+	// ****************** //
+
+}
 
 
 

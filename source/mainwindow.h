@@ -8,13 +8,12 @@
 
 #include <vtkSmartPointer.h>
 
-
 #include "toolbox.h"
+#include "orientationmarker.h"
 
 
 // Forward Declaration
 class vtkEventQtSlotConnect;
-class vtkOrientationMarkerWidget;
 
 
 class MainWindow : public QMainWindow, private Ui::MainWindow {
@@ -25,7 +24,9 @@ class MainWindow : public QMainWindow, private Ui::MainWindow {
 		void slot_clicked(vtkObject*, unsigned long, void*, void*);
 	private slots:
 		void on_actionImport_Tree_triggered();		
+
 		void on_actionSet_Background_Color_triggered();
+
 		void on_actionView_All_Actors_triggered();
 
 		void on_actionShow_Orientation_Axes_toggled(bool arg1);
@@ -34,14 +35,12 @@ class MainWindow : public QMainWindow, private Ui::MainWindow {
 
 	private:
 		TreeModel									mytree;
-
-
-		ToolBox									tool_box;
-
+		ToolBox										tool_box;
+		OrientationMarker							orientation_marker;
 
 		vtkSmartPointer<vtkRenderer>				renderer;
 		vtkSmartPointer<vtkEventQtSlotConnect>		connections;
-		vtkSmartPointer<vtkOrientationMarkerWidget>	orientation_marker;
+
 
 		void update_rendering_window();
 		void reset_camera();
