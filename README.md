@@ -6,4 +6,4 @@ Visualization of quantitative data on Phylogenies
 
 
 
-![](https://github.com/meireles/InSight/blob/master/Screenshot.png)
+![](https://raw.github.com/meireles/InSight/master/Screenshot.png)
